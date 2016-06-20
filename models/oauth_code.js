@@ -10,4 +10,4 @@ var OAuthCodeSchema   = new mongoose.Schema({
 });
 
 // Export the Mongoose model
-module.exports = mongoose.model('OAuthCode', CodeSchema);
+module.exports = mongoose.model('OAuthCode', OAuthCodeSchema);

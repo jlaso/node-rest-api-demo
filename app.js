@@ -44,6 +44,8 @@ app.use(router);
 // Import Models
 require('./models/user')(app, mongoose);
 require('./models/oauth_client')(app, mongoose);
+require('./models/oauth_token')(app, mongoose);
+require('./models/oauth_code')(app, mongoose);
 
 // Import Controllers
 var UserCtrl = require('./controllers/user');
@@ -67,6 +69,21 @@ api.route('/users/:id')
 api.post('/oauth-clients', AuthCtrl.isClientAuthenticated, ClientCtrl.createOAuthClient);
 
 app.use('/api', api);
+
+
+// OAUTH2 AUTH ROUTES
+
+var oauth2Controller = require('./controllers/oauth2');
+
+// Create endpoint handlers for oauth2 authorize
+router.route('/oauth2/authorize')
+  .get(AuthCtrl.isAuthenticated, oauth2Controller.authorization)
+  .post(AuthCtrl.isAuthenticated, oauth2Controller.decision);
+
+// Create endpoint handlers for oauth2 token
+router.route('/oauth2/token')
+  .post(AuthCtrl.isClientAuthenticated, oauth2Controller.token);
+
 
 app.listen(3000, function() {
     console.log("Node server running on http://localhost:3000");

@@ -9,4 +9,4 @@ var OAuthTokenSchema   = new mongoose.Schema({
 });
 
 // Export the Mongoose model
-module.exports = mongoose.model('OAuthToken', TokenSchema);
+module.exports = mongoose.model('OAuthToken', OAuthTokenSchema);
