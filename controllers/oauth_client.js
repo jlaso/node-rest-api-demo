@@ -1,23 +1,41 @@
 var mongoose = require('mongoose');
-var OAuthClient  = mongoose.model('OAuthClient');
+var OAuthClient = mongoose.model('OAuthClient');
+var utils = require('../lib/utils');
 
 // Create endpoint /api/clients for POST
-exports.createOAuthClient = function(req, res) {
-  // Create a new instance of the Client model
-  var client = new OAuthClient();
+exports.createOAuthClient = function (req, res) {
 
-  // Set the client properties that came from the POST data
-  client.name = req.body.name;
-  client.id = req.body.id;
-  client.secret = req.body.secret;
-  client.userId = req.user._id || 0;
+    utils.checkMatches(req.body, ["name", "id", "secret"], function (err) {
+        if (err !== null) {
+            res.status(400).jsonp({'error': err});
+            return false;
+        }
 
-  // Save the client and check for errors
-  client.save(function(err) {
-    if (err) res.send(err);
+        utils.checkIfExists(OAuthClient, req.body.id, function (err) {
+            if (err) {
+                res.status(200).jsonp({'error': err});
+                return false;
+            }
 
-    res.json({ message: 'OAuthClient added to the locker!', data: client });
-  });
+            // Create a new instance of the Client model
+            var client = new OAuthClient({
+                name: req.body.name,
+                id: req.body.id,
+                secret: req.body.secret,
+                userId: req.user._id || 0
+            });
+
+            // Save the client and check for errors
+            client.save(function (err) {
+                if (err)
+                    res.send(err);
+                else
+                    res.json({message: 'OAuthClient added to the locker!', data: client});
+            });
+
+        });
+    });
+
 };
 
 //// Create endpoint /api/clients for GET

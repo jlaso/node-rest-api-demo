@@ -9,7 +9,7 @@ Following some tutorials on the net:
 
 ## installation 
 
-so .. clone the repo and 
+So .. clone the repo and ... 
 
 ```
 npm install
@@ -17,7 +17,7 @@ npm install
 
 ## start the server
 
-to start the server just
+To start the server just:
 
 ```
 node app.js
@@ -25,9 +25,10 @@ node app.js
 
 ## examples
 
-there are some examples of calls in the doc folder
-you can find as well a collection for postman
+There are some examples of calls in the doc folder.
+
+You can find as well a collection for postman.
 
 ## more
 
-more is comming ...
+more is coming ...
